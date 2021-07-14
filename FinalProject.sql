@@ -1,9 +1,7 @@
 DROP DATABASE IF EXISTS CSE535Project;
 CREATE DATABASE CSE535Project;
 USE CSE535Project;
-DROP USER IF EXISTS 'cse535'@'localhost';
-CREATE USER 'cse535'@'localhost' IDENTIFIED BY 'taforever';
-GRANT ALL ON CSE535Project TO 'cse535'@'localhost';
+
 CREATE TABLE CUSTOMER(
 	id				INT NOT NULL,
     name			VARCHAR(64) NOT NULL,
@@ -59,7 +57,7 @@ CREATE TABLE COMPLETEDTRIP(
     CONSTRAINT ct_pk PRIMARY KEY (vin,cid,`init-date`,`init-time`)
 );
 
-/*	EXERCISE A START	*/
+/*	Add a vehicle to the system and adding it to the station with the least available spots	*/
 DELIMITER //
 	CREATE TRIGGER new_vehicle BEFORE INSERT ON AUTOPOD
     FOR EACH ROW
@@ -86,8 +84,8 @@ DELIMITER //
 		END IF;
 	END//
 DELIMITER ;
-/*	EXERCISE A END	*/
-/*	EXERCISE B START	*/
+
+/*	Taking a vehicle out of order	*/
 DELIMITER //
 	CREATE TRIGGER delete_autopod BEFORE DELETE ON AUTOPOD
     FOR EACH ROW
@@ -100,8 +98,8 @@ DELIMITER //
 		SET FOREIGN_KEY_CHECKS=1;
     END//
 DELIMITER ;
-/*	EXERCISE B END	*/
-/*	EXERCISE C START	*/
+
+/*	start trip	*/
 DELIMITER //
 	CREATE PROCEDURE StartTrip(vin CHAR(16),cid INT)
     BEGIN
@@ -118,8 +116,8 @@ DELIMITER //
         END IF;
     END //
 DELIMITER ;
-/*	EXERCISE C END	*/
-/*	EXERCISE D START	*/
+
+/*	end trip	*/
 DELIMITER //
 	CREATE PROCEDURE EndTrip(vin CHAR(16), cid INT, dest INT, cost FLOAT)
     BEGIN
@@ -148,4 +146,3 @@ DELIMITER //
         END IF;
     END //
 DELIMITER ;
-/*	EXERCISE D END	*/
